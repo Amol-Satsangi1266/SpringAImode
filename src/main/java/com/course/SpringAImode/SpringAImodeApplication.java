@@ -7,7 +7,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringAImodeApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(SpringAImodeApplication.class, args);
+
+		System.out.println(
+				"API Key present: " +
+						(System.getenv("GEMINI_API_KEY") != null)
+		);
 	}
 
 }
