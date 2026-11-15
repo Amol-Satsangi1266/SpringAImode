@@ -21,8 +21,8 @@ public class TechAdviserController {
     @GetMapping("/advise")
     public String advise(){
         return chatClient.prompt()
-                .user("Explain Spring boot in simple terms")
-                .call()
-                .content();
+                .user("Explain Spring boot in simple terms") //REQUEST
+                .call() // CALL
+                .content(); //RESPONSE
     }
 }
