@@ -6,13 +6,18 @@ import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -20,13 +25,19 @@ public class TechAdviserController {
 
     private final ChatClient chatClient;
     private final ChatClient chatClientwithdefaultparams;
+    @Value("classpath:/prompts/recipe-prompt.st")
+    private Resource resourcePrompt;
+
 
     public TechAdviserController(ChatClient.Builder builder ) {
         this.chatClient = builder.build();
-        this.chatClientwithdefaultparams = builder
+
+        this.chatClientwithdefaultparams = builder.clone()
                 .defaultSystem("You are a java interviewer after explaining also ask a follow up question.")
                 .build();
     }
+
+
 
     @GetMapping("/advise")
     public String advise(){
@@ -65,4 +76,30 @@ public class TechAdviserController {
                 .call()
                 .content();
     }
+
+    @GetMapping("/prompt-variables")
+    public String promptVariables(@RequestParam String language, @RequestParam String task)
+    {
+        PromptTemplate template = new PromptTemplate("Write a short note on {language} language and do {task} in this. ");
+        Prompt prompt = template.create(Map.of(
+                "language", language,
+                "task", task
+        ));
+
+        return "<pre>" +  chatClient.prompt(prompt)
+                .call()
+                .content() + "</pre>";
+    }
+
+    @GetMapping("/prompt-variables")
+    public String promptVariables(@RequestParam String ingredient) {
+        PromptTemplate template = new PromptTemplate(resourcePrompt);
+        Prompt prompt = template.create(Map.of("ingredient",ingredient));
+
+        return "<pre>" +  chatClient.prompt(prompt)
+                .call()
+                .content() + "</pre>";
+
+    }
 }
+
