@@ -19,10 +19,13 @@ import java.util.List;
 public class TechAdviserController {
 
     private final ChatClient chatClient;
+    private final ChatClient chatClientwithdefaultparams;
 
-
-    public TechAdviserController(ChatClient.Builder builder) {
+    public TechAdviserController(ChatClient.Builder builder ) {
         this.chatClient = builder.build();
+        this.chatClientwithdefaultparams = builder
+                .defaultSystem("You are a java interviewer after explaining also ask a follow up question.")
+                .build();
     }
 
     @GetMapping("/advise")
@@ -31,6 +34,15 @@ public class TechAdviserController {
                 .user("Explain Spring boot in simple terms") //REQUEST
                 .call() // CALL
                 .content(); //RESPONSE
+    }
+
+    @GetMapping("/defres")
+    public String defaultresponse()
+    {
+        return chatClientwithdefaultparams.prompt()
+                .user("Explain AI")
+                .call()
+                .content();
     }
 
     @GetMapping("/conversation-history")
