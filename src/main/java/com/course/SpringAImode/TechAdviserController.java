@@ -91,7 +91,7 @@ public class TechAdviserController {
                 .content() + "</pre>";
     }
 
-    @GetMapping("/prompt-variables")
+    @GetMapping("/prompt-variables1")
     public String promptVariables(@RequestParam String ingredient) {
         PromptTemplate template = new PromptTemplate(resourcePrompt);
         Prompt prompt = template.create(Map.of("ingredient",ingredient));
