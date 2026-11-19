@@ -26,12 +26,7 @@ public class StreamingDemo {
         return chatClient.prompt()
                 .user("Give 5 short fun facts about " + topic)
                 .stream()
-                .content()
-                .doOnNext(chunk ->
-                        System.out.println(
-                                java.time.Instant.now() + " -> " + chunk
-                        )
-                );
+                .content();
     }
 
     @GetMapping(
