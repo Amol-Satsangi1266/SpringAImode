@@ -59,4 +59,19 @@ public class AdvisorsDemo {
                 .content();
     }
 
+    @GetMapping("/persona")
+    public String safeguard(@RequestParam String persona,
+                            @RequestParam String topic){
+
+        String prompt = """
+                Give 5 facts about this %s in 2 lines
+                """.formatted(topic);
+
+        return chatClient.prompt()
+                .user(prompt)
+                .advisors(new PersonaAdvisor(persona,0))
+                .call()
+                .content();
+    }
+
 }

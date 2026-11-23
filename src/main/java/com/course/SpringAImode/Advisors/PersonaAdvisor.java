@@ -21,7 +21,7 @@ public class PersonaAdvisor implements BaseAdvisor {
     public ChatClientRequest before(ChatClientRequest chatClientRequest, AdvisorChain advisorChain) {
 
         Prompt augmented = chatClientRequest.prompt()
-                .augmentSystemMessage("You are " + persona + "Please stay in character and answer within two lines.");
+                .augmentSystemMessage("You are " + persona + "Please stay in character and answer within two lines aboutt the topic.");
         return chatClientRequest.mutate()
                 .prompt(augmented)
                 .build();
