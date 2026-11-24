@@ -88,6 +88,7 @@ public class AdvisorsDemo {
                 .content();
     }
 
+
     @GetMapping("/disclaimer")
     public String disclaimer(@RequestParam String topic){
 
