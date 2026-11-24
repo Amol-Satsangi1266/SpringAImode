@@ -1,4 +1,4 @@
-package com.course.SpringAImode;
+package com.course.SpringAImode.Controller;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.AssistantMessage;
@@ -9,9 +9,7 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -76,6 +74,8 @@ public class TechAdviserController {
                 .call()
                 .content();
     }
+
+
 
     @GetMapping("/prompt-variables")
     public String promptVariables(@RequestParam String language, @RequestParam String task)
