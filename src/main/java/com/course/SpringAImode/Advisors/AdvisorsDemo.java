@@ -74,20 +74,6 @@ public class AdvisorsDemo {
                 .content();
     }
 
-    @GetMapping("/timing")
-    public String timing(@RequestParam String topic){
-
-        String prompt = """
-                Give 5 facts about this %s in 2 lines
-                """.formatted(topic);
-
-        return chatClient.prompt()
-                .user(prompt)
-                .advisors(new TimingAdvisor(0))
-                .call()
-                .content();
-    }
-
 
     @GetMapping("/disclaimer")
     public String disclaimer(@RequestParam String topic){
@@ -102,5 +88,21 @@ public class AdvisorsDemo {
                 .call()
                 .content();
     }
+
+
+    @GetMapping("/timing")
+    public String timing(@RequestParam String topic){
+
+        String prompt = """
+                Give 5 facts about this %s in 2 lines
+                """.formatted(topic);
+
+        return chatClient.prompt()
+                .user(prompt)
+                .advisors(new TimingAdvisor(0))
+                .call()
+                .content();
+    }
+
 
 }
