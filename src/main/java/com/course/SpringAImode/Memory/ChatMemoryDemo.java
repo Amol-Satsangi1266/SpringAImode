@@ -31,7 +31,23 @@ public class ChatMemoryDemo {
     {
         return chatClient.prompt()
                 .user(Message)
-                .advisors(MessageChatMemoryAdvisor.builder(chatMemory).build())
+                .advisors(a->
+                        a.advisors(
+                        MessageChatMemoryAdvisor.builder(chatMemory).build())
+                                .param(ChatMemory.CONVERSATION_ID,"shared"))
+                .call()
+                .content();
+    }
+
+    @GetMapping("/memory")
+    public String chatMemorysecond(@RequestParam String Message, @RequestParam String id)
+    {
+        return chatClient.prompt()
+                .user(Message)
+                .advisors(a->
+                        a.advisors(
+                                        MessageChatMemoryAdvisor.builder(chatMemory).build())
+                                .param(ChatMemory.CONVERSATION_ID,id))
                 .call()
                 .content();
     }
