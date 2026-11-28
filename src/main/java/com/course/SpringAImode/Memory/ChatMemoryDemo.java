@@ -39,7 +39,7 @@ public class ChatMemoryDemo {
                 .content();
     }
 
-    @GetMapping("/memory")
+    @GetMapping("/memorynew")
     public String chatMemorysecond(@RequestParam String Message, @RequestParam String id)
     {
         return chatClient.prompt()

@@ -3,28 +3,31 @@ package com.course.SpringAImode.Memory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.memory.ChatMemoryRepository;
 import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 public class PersistentChatMemoryDemo {
 
     private final ChatMemory chatMemory;
     private final ChatClient chatClient;
 
-    public PersistentChatMemoryDemo(ChatClient.Builder builder) {
+    public PersistentChatMemoryDemo(ChatClient.Builder builder, ChatMemoryRepository chatMemoryRepository) {
 
         this.chatClient = builder.build();
 
         this.chatMemory = MessageWindowChatMemory.builder()
-                .chatMemoryRepository(new InMemoryChatMemoryRepository())
+                .chatMemoryRepository(chatMemoryRepository)
                 .maxMessages(10)
                 .build();
     }
 
 
-    @GetMapping("/memory")
+    @GetMapping("/persistent")
     public String chatMemoryfirst(@RequestParam String Message)
     {
         return chatClient.prompt()
@@ -37,7 +40,7 @@ public class PersistentChatMemoryDemo {
                 .content();
     }
 
-    @GetMapping("/memory")
+    @GetMapping("/persistentnew")
     public String chatMemorysecond(@RequestParam String Message, @RequestParam String id)
     {
         return chatClient.prompt()
